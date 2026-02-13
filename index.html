@@ -194,91 +194,15 @@
       border: 3px solid #111;
     }
 
-    /* Top-left: Drake refusing face */
-    .drake-face-no {
-      grid-column: 1;
-      grid-row: 1;
-      background: url('https://i.imgflip.com/30b1gx.jpg') left top / 280px auto no-repeat;
-      min-height: 180px;
-      position: relative;
-    }
-    /* Bottom-left: Drake approving face */
-    .drake-face-yes {
-      grid-column: 1;
-      grid-row: 2;
-      background: url('https://i.imgflip.com/30b1gx.jpg') left bottom / 280px auto no-repeat;
-      min-height: 180px;
-    }
-
-    /* Top-right: sports car */
-    .drake-content-no {
-      grid-column: 2;
-      grid-row: 1;
-      background:
-        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80') center / cover no-repeat;
-      min-height: 180px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 10px 12px;
-    }
-    .drake-content-no::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.25);
-    }
-    .drake-label-no {
-      position: relative;
-      z-index: 1;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      font-style: italic;
-      padding: 6px 10px;
-      border-radius: 3px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      line-height: 1.3;
-    }
-
-    /* Bottom-right: your GitHub photo */
-    .drake-content-yes {
-      grid-column: 2;
-      grid-row: 2;
-      background:
-        url('https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg') center / cover no-repeat;
-      min-height: 180px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 10px 12px;
-    }
-    .drake-content-yes::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(192,82,110,0.5) 0%, transparent 60%);
-    }
-    .drake-label-yes {
-      position: relative;
-      z-index: 1;
-      background: rgba(192,82,110,0.85);
-      color: white;
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.1rem;
-      padding: 6px 12px;
-      border-radius: 3px;
-      line-height: 1.3;
-    }
-
-    .drake-caption {
-      background: white;
-      text-align: center;
-      padding: 14px 16px;
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.35rem;
-      color: var(--deep-rose);
-      border-top: 2px solid #eee;
-    }
+    .drake-face-no { grid-column: 1; grid-row: 1; background: url('https://i.imgflip.com/30b1gx.jpg') left top / 280px auto no-repeat; min-height: 180px; position: relative; }
+    .drake-face-yes { grid-column: 1; grid-row: 2; background: url('https://i.imgflip.com/30b1gx.jpg') left bottom / 280px auto no-repeat; min-height: 180px; }
+    .drake-content-no { grid-column: 2; grid-row: 1; background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80') center / cover no-repeat; min-height: 180px; position: relative; display: flex; align-items: flex-end; padding: 10px 12px; }
+    .drake-content-no::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.25); }
+    .drake-label-no { position: relative; z-index: 1; background: rgba(0,0,0,0.6); color: white; font-family: 'Playfair Display', serif; font-size: 0.95rem; font-style: italic; padding: 6px 10px; border-radius: 3px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); line-height: 1.3; }
+    .drake-content-yes { grid-column: 2; grid-row: 2; background: url('https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg') center / cover no-repeat; min-height: 180px; position: relative; display: flex; align-items: flex-end; padding: 10px 12px; }
+    .drake-content-yes::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(192,82,110,0.5) 0%, transparent 60%); }
+    .drake-label-yes { position: relative; z-index: 1; background: rgba(192,82,110,0.85); color: white; font-family: 'Dancing Script', cursive; font-size: 1.1rem; padding: 6px 12px; border-radius: 3px; line-height: 1.3; }
+    .drake-caption { background: white; text-align: center; padding: 14px 16px; font-family: 'Dancing Script', cursive; font-size: 1.35rem; color: var(--deep-rose); border-top: 2px solid #eee; }
 
     /* ── VENUE ── */
     .venue-section { width: min(780px,92vw); margin: 40px auto; }
@@ -307,10 +231,6 @@
     .track-dots { display: flex; gap: 6px; justify-content: flex-end; margin-top: 6px; }
     .t-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
     .t-dot.active { background: var(--rose); }
-
-    /* ── CONFETTI ── */
-    .confetti-piece { position: fixed; top: -20px; z-index: 200; pointer-events: none; animation: confettiFall linear forwards; }
-    @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; } }
 
     @media (max-width: 600px) {
       .letter-card { padding: 40px 28px; }
@@ -441,10 +361,6 @@
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Play music">♫</button>
 </div>
 
-<div style="position:fixed; bottom:0; right:0; width:200px; height:200px; z-index:-10; opacity:0; pointer-events:none;">
-  <div id="ytPlayer"></div>
-</div>
-
 <script>
 /* ── PETALS ── */
 const petalsEl = document.getElementById('petalsContainer');
@@ -464,12 +380,78 @@ function spawnPetal() {
 setInterval(spawnPetal, 600);
 for(let i=0;i<12;i++) setTimeout(spawnPetal, i*200);
 
+/* ── HTML5 AUDIO SETUP ── */
+// Uses raw.githubusercontent to bypass HTML file display
+const TRACKS = [
+  { src: 'https://raw.githubusercontent.com/Lord-LLM/ily/main/song1.mpeg', artist: "Our Song", title: 'Tell Me One Lie' }
+];
+
+let curTrack = 0;
+let playing = false;
+const audioEl = new Audio(TRACKS[0].src);
+
+// Automatically loops the entire array of tracks (or just repeats this one if it's the only one)
+audioEl.addEventListener('ended', () => {
+  curTrack = (curTrack + 1) % TRACKS.length;
+  audioEl.src = TRACKS[curTrack].src;
+  audioEl.play().catch(e => console.log("Audio play prevented:", e));
+  refreshMusicUI();
+});
+
+function toggleMusic() {
+  const btn  = document.getElementById('musicBtn');
+  const info = document.getElementById('trackInfo');
+  
+  if(playing) {
+    audioEl.pause(); 
+    playing = false;
+    btn.textContent = '♫';
+    btn.style.background = 'linear-gradient(135deg,#666,#444)';
+    info.classList.remove('visible');
+  } else {
+    // Starts playing the song!
+    audioEl.play().catch(e => console.log("Audio play prevented:", e)); 
+    playing = true;
+    btn.textContent = '⏸';
+    btn.style.background = 'linear-gradient(135deg,var(--rose),var(--deep-rose))';
+    refreshMusicUI();
+    info.classList.add('visible');
+  }
+}
+
+function refreshMusicUI() {
+  document.getElementById('artistName').textContent = TRACKS[curTrack].artist;
+  document.getElementById('trackName').textContent  = '♪ ' + TRACKS[curTrack].title;
+  updateTrackDots();
+}
+
+function updateTrackDots() {
+  const el = document.getElementById('trackDots');
+  el.innerHTML = '';
+  TRACKS.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 't-dot' + (i === curTrack ? ' active' : '');
+    d.onclick = () => switchTrack(i);
+    el.appendChild(d);
+  });
+}
+
+function switchTrack(idx) {
+  curTrack = idx;
+  audioEl.src = TRACKS[idx].src;
+  if(playing) audioEl.play();
+  refreshMusicUI();
+}
+
+// Initial UI setup for the music player
+refreshMusicUI();
+
 /* ── ENVELOPE ── */
 function openEnvelope() {
   const screen = document.getElementById('envelope-screen');
   screen.classList.add('hide');
   
-  // Start the music exactly when she taps!
+  // Triggers the song to start playing the moment she clicks!
   toggleMusic();
 
   setTimeout(()=>{
@@ -551,97 +533,6 @@ function launchConfetti() {
   }, i*40);
 }
 
-/* ── YOUTUBE ── */
-const TRACKS = [
-  {id:'O4mwT7XJTcc', artist:"Roni's Goliath", title:'Tell Me One Lie'},
-  {id:'yG9S0p_0lVA', artist:'Alex Warren',    title:'Ordinary'},
-];
-let curTrack=0, ytPlayer=null, ytReady=false, playing=false;
-
-function initMusic() {
-  updateTrackDots();
-  if(document.querySelector('script[src*="youtube.com/iframe_api"]')) return;
-  const s = document.createElement('script');
-  s.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(s);
-}
-
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('ytPlayer', {
-    width: '200', height: '200',
-    videoId: TRACKS[0].id,
-    playerVars: { 
-      autoplay: 0, 
-      controls: 0, 
-      playsinline: 1, 
-      enablejsapi: 1, 
-      origin: window.location.origin 
-    },
-    events: {
-      onReady: ()=>{ ytReady = true; },
-      onStateChange: (e)=>{
-        if(e.data === YT.PlayerState.ENDED) {
-          curTrack = (curTrack+1) % TRACKS.length;
-          ytPlayer.loadVideoById(TRACKS[curTrack].id);
-          ytPlayer.playVideo();
-          refreshMusicUI();
-        }
-      }
-    }
-  });
-};
-
-function toggleMusic() {
-  const btn  = document.getElementById('musicBtn');
-  const info = document.getElementById('trackInfo');
-  
-  if(!ytReady || !ytPlayer || typeof ytPlayer.playVideo !== 'function') {
-    btn.textContent = '⏳';
-    setTimeout(toggleMusic, 800);
-    return;
-  }
-  
-  if(playing) {
-    ytPlayer.pauseVideo(); playing = false;
-    btn.textContent = '♫';
-    btn.style.background = 'linear-gradient(135deg,#666,#444)';
-    info.classList.remove('visible');
-  } else {
-    ytPlayer.playVideo(); playing = true;
-    btn.textContent = '⏸';
-    btn.style.background = 'linear-gradient(135deg,var(--rose),var(--deep-rose))';
-    refreshMusicUI();
-    info.classList.add('visible');
-  }
-}
-
-function refreshMusicUI() {
-  document.getElementById('artistName').textContent = TRACKS[curTrack].artist;
-  document.getElementById('trackName').textContent  = '♪ '+TRACKS[curTrack].title;
-  updateTrackDots();
-}
-
-function updateTrackDots() {
-  const el = document.getElementById('trackDots');
-  el.innerHTML = '';
-  TRACKS.forEach((_,i)=>{
-    const d = document.createElement('div');
-    d.className = 't-dot'+(i===curTrack?' active':'');
-    d.onclick = ()=> switchTrack(i);
-    el.appendChild(d);
-  });
-}
-
-function switchTrack(idx) {
-  if(!ytReady || !ytPlayer || typeof ytPlayer.loadVideoById !== 'function') return;
-  curTrack = idx;
-  ytPlayer.loadVideoById(TRACKS[idx].id);
-  if(playing) ytPlayer.playVideo();
-  refreshMusicUI();
-}
-
-// Preload the API immediately so it's ready when the envelope is clicked
-initMusic();
 </script>
 </body>
 </html>
