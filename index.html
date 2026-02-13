@@ -60,11 +60,11 @@
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
     /* LETTER */
-    #letter-er { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; background: radial-gradient(ellipse at 50% 0%, #2d0d14 0%, #0d0305 60%, #050003 100%); padding: 0 0 80px; }
-    #letter-er.visible { display: flex; }
+    #letter-container { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; background: radial-gradient(ellipse at 50% 0%, #2d0d14 0%, #0d0305 60%, #050003 100%); padding: 0 0 80px; }
+    #letter-container.visible { display: flex; }
 
-    /* PHOTO BANNER */
-    .photo-banner { width: 100%; height: 420px; position: relative; overflow: hidden; background: #1a0a0a; }
+    /* PHOTO BANNER - Updated Height for better framing */
+    .photo-banner { width: 100%; height: 60vh; min-height: 450px; position: relative; overflow: hidden; background: #1a0a0a; }
     .photo-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, #0d0305 100%); z-index: 2; pointer-events: none; }
     .photo-banner::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(192,82,110,0.15) 100%); z-index: 3; pointer-events: none; }
     .slides-track { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4,0,0.2,1); }
@@ -72,42 +72,35 @@
     .slide-inner { width: 100%; height: 100%; background-size: cover; background-position: center; transform: scale(1.05); transition: transform 8s ease; }
     .slide.active .slide-inner { transform: scale(1); }
 
-    /*
-     * PHOTOS — using raw.githubusercontent.com
-     * Format: https://raw.githubusercontent.com/OWNER/REPO/BRANCH/FILENAME
-     * Your repo: Lord-LLM/ily  |  branch: main
-     * If images still 404, open each URL below in a new browser tab to verify.
-     * If the branch is "master" not "main", change /main/ to /master/ below.
-     */
+    /* Reverted back to cover */
     .slide:nth-child(1) .slide-inner {
       background:
         linear-gradient(135deg, rgba(139,69,19,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,140,0,0.3) 100%),
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg") center / contain no-repeat ;
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg") center / cover no-repeat;
     }
     .slide:nth-child(2) .slide-inner {
       background:
         linear-gradient(135deg, rgba(44,22,84,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,107,157,0.3) 100%),
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/2.jpeg")  center / contain no-repeat ;
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/2.jpeg") center / cover no-repeat;
     }
     .slide:nth-child(3) .slide-inner {
       background:
         linear-gradient(135deg, rgba(13,79,60,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,160,122,0.3) 100%),
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/3.jpeg") center / contain no-repeat;
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/3.jpeg") center / cover no-repeat;
     }
     .slide:nth-child(4) .slide-inner {
       background:
         linear-gradient(135deg, rgba(26,26,46,0.4) 0%, rgba(139,45,69,0.3) 50%, rgba(255,105,180,0.3) 100%),
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/4.jpeg") center / contain no-repeatt;
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/4.jpeg") center / cover no-repeat;
     }
     .slide:nth-child(5) .slide-inner {
       background:
         linear-gradient(135deg, rgba(45,27,0,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,215,0,0.3) 100%),
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/5.jpeg") center / contain no-repeat;
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/5.jpeg") center / cover no-repeat;
     }
 
     .photo-overlay-text { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 4; text-align: center; width: 100%; }
     .photo-overlay-text h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.8rem,6vw,4.5rem); color: white; text-shadow: 0 2px 20px rgba(192,82,110,0.8), 0 0 60px rgba(192,82,110,0.4); animation: fadeInDown 1.5s ease both; }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .slide-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 8px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s ease; }
     .dot.active { background: var(--rose); transform: scale(1.3); box-shadow: 0 0 8px var(--rose); }
@@ -142,13 +135,49 @@
     #yes-section { display: none; flex-direction: column; align-items: center; padding: 0 20px 60px; }
     #yes-section.visible { display: flex; animation: fadeInUp 1s ease both; }
     .question-section.hide { display: none; }
-    .meme-reveal { width: min(500px,90vw); margin: 40px auto; text-align: center; }
-    .meme-card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.6); transform: rotate(-1.5deg); animation: memePopIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both; }
-    @keyframes memePopIn { from { opacity: 0; transform: rotate(-1.5deg) scale(0.5); } to { opacity: 1; transform: rotate(-1.5deg) scale(1); } }
-    .meme-card img { width: 100%; display: block; }
-    .meme-caption { background: white; padding: 16px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--deep-rose); }
     .yes-headline { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem,7vw,4rem); color: var(--rose); text-align: center; text-shadow: 0 0 40px rgba(192,82,110,0.5); margin-bottom: 8px; }
     .yes-sub { font-style: italic; font-size: 1.2rem; color: rgba(255,255,255,0.6); text-align: center; }
+
+    /* CUSTOM DRAKE MEME */
+    .custom-meme { 
+      width: min(500px, 90vw); 
+      margin: 40px auto; 
+      background: white; 
+      border-radius: 4px; 
+      overflow: hidden; 
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6); 
+      transform: rotate(-1.5deg); 
+      animation: memePopIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both;
+      border: 3px solid #111;
+    }
+    @keyframes memePopIn { from { opacity: 0; transform: rotate(-1.5deg) scale(0.5); } to { opacity: 1; transform: rotate(-1.5deg) scale(1); } }
+    .meme-row { display: flex; width: 100%; height: 220px; border-bottom: 3px solid #111; }
+    .meme-row:last-child { border-bottom: none; }
+    
+    /* Using CSS background positioning to slice the Drake template perfectly */
+    .drake-panel { 
+      width: 50%; 
+      height: 100%; 
+      background-image: url('https://i.imgflip.com/1ur9b0.jpg'); 
+      background-size: 200% 200%; 
+      background-repeat: no-repeat; 
+      border-right: 3px solid #111; 
+    }
+    .drake-no { background-position: left top; }
+    .drake-yes { background-position: left bottom; }
+    
+    .content-panel { 
+      width: 50%; 
+      height: 100%; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 12px; 
+      background: white; 
+    }
+    .content-panel img { width: 100%; height: 140px; object-fit: cover; border-radius: 4px; }
+    .content-panel p { font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: var(--deep-rose); margin-top: 10px; text-align: center; line-height: 1.1; font-weight: bold; }
 
     /* VENUE */
     .venue-section { width: min(780px,92vw); margin: 40px auto; }
@@ -193,7 +222,6 @@
 
 <div class="petals-container" id="petalsContainer"></div>
 
-<!-- Envelope intro -->
 <div id="envelope-screen">
   <div class="envelope-wrap" onclick="openEnvelope()">
     <div class="envelope-body"></div>
@@ -204,10 +232,8 @@
   <p class="click-hint">✦ Open me ✦</p>
 </div>
 
-<!-- Main content -->
 <div id="letter-container">
 
-  <!-- Slideshow -->
   <div class="photo-banner">
     <div class="slides-track" id="slidesTrack">
       <div class="slide active"><div class="slide-inner"></div></div>
@@ -226,7 +252,6 @@
     </div>
   </div>
 
-  <!-- Letter -->
   <div class="letter-paper">
     <div class="letter-card">
       <div class="letter-date">February 14, 2026</div>
@@ -245,7 +270,6 @@
     </div>
   </div>
 
-  <!-- Question -->
   <div class="question-section" id="questionSection">
     <p class="question-text">Will you be my Valentine? 🌹</p>
     <p class="question-sub">Choose wisely — one of these buttons is a trap.</p>
@@ -255,16 +279,27 @@
     </div>
   </div>
 
-  <!-- Yes! -->
   <div id="yes-section">
     <p class="yes-headline">She said YES! 🎉</p>
     <p class="yes-sub">I knew you would 😉</p>
-    <div class="meme-reveal">
-      <div class="meme-card">
-        <img src="https://i.imgflip.com/30b1gx.jpg" alt="meme" onerror="this.src='https://i.imgflip.com/4/1ur9b0.jpg'" />
-        <div class="meme-caption">You just made my whole year 😭❤️</div>
+    
+    <div class="custom-meme">
+      <div class="meme-row">
+        <div class="drake-panel drake-no"></div>
+        <div class="content-panel">
+          <img src="https://images.unsplash.com/photo-1503376713356-1a71ffe89251?w=500" alt="Fancy Sports Car" />
+          <p>A Fancy New Car</p>
+        </div>
+      </div>
+      <div class="meme-row">
+        <div class="drake-panel drake-yes"></div>
+        <div class="content-panel">
+          <img src="https://raw.githubusercontent.com/Lord-LLM/ily/main/3.jpeg" alt="Us Together" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83164ba?w=500'" />
+          <p>Valentine's with you</p>
+        </div>
       </div>
     </div>
+
     <div class="venue-section">
       <div class="venue-card">
         <div class="venue-hero">
@@ -295,7 +330,6 @@
 
 </div>
 
-<!-- Music -->
 <div class="music-player">
   <div class="track-info" id="trackInfo">
     <span id="artistName"></span><br/>
@@ -305,11 +339,6 @@
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Play music">♫</button>
 </div>
 
-<!--
-  YouTube iframe fix:
-  - Must NOT be display:none — YouTube's postMessage fails
-  - Use visibility+size trick instead to keep it in DOM
--->
 <div style="position:fixed;top:-20px;left:-20px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;">
   <div id="ytPlayer"></div>
 </div>
@@ -422,48 +451,44 @@ let curTrack=0, ytPlayer=null, ytReady=false, playing=false;
 
 function initMusic() {
   updateTrackDots();
-  // Only load the API once
   if(document.querySelector('script[src*="youtube.com/iframe_api"]')) return;
   const s=document.createElement('script');
   s.src='https://www.youtube.com/iframe_api';
   document.head.appendChild(s);
 }
 
-// Called automatically by YouTube API when ready
-// Called automatically by YouTube API when ready
 window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('ytPlayer',{
-    width:'2', height:'2',
-    videoId: TRACKS[0].id,
-    playerVars:{ 
+  ytPlayer = new YT.Player('ytPlayer',{
+    width:'2', height:'2',
+    videoId: TRACKS[0].id,
+    playerVars:{ 
       autoplay: 0, 
       controls: 0, 
       playsinline: 1, 
-      enablejsapi: 1, // <-- Add this flag here
-      origin: 'https://joylynn.vercel.app' // Hardcoding the exact domain can also help!
+      enablejsapi: 1, 
+      origin: 'https://joylynn.vercel.app' 
     },
-    events:{
-      onReady: ()=>{ ytReady=true; },
-      onStateChange: (e)=>{
-        if(e.data===YT.PlayerState.ENDED){
-          curTrack=(curTrack+1)%TRACKS.length;
-          ytPlayer.loadVideoById(TRACKS[curTrack].id);
-          ytPlayer.playVideo();
-          refreshUI();
-        }
-      }
-    }
-  });
+    events:{
+      onReady: ()=>{ ytReady=true; },
+      onStateChange: (e)=>{
+        if(e.data===YT.PlayerState.ENDED){
+          curTrack=(curTrack+1)%TRACKS.length;
+          ytPlayer.loadVideoById(TRACKS[curTrack].id);
+          ytPlayer.playVideo();
+          refreshUI();
+        }
+      }
+    }
+  });
 };
 
 function toggleMusic() {
   const btn  = document.getElementById('musicBtn');
   const info = document.getElementById('trackInfo');
 
-  // Guard: player not ready yet
   if(!ytReady || !ytPlayer || typeof ytPlayer.playVideo!=='function'){
     btn.textContent='⏳';
-    setTimeout(toggleMusic,800); // retry in 0.8s
+    setTimeout(toggleMusic,800); 
     return;
   }
 
@@ -510,5 +535,3 @@ function switchTrack(idx){
 </script>
 </body>
 </html>
-
-
