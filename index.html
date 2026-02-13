@@ -1,1022 +1,660 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Happy Valentine's Day 💌</title>
-
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
 
-
-
   <style>
-
     :root {
-
       --cream: #fdf6ee;
-
       --parchment: #f5e6d3;
-
       --rose: #c0526e;
-
       --deep-rose: #8b2d45;
-
       --blush: #f4c2c2;
-
       --gold: #c9a84c;
-
       --dark: #2c1a0e;
-
       --ink: #3d2314;
-
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
-
       background: #1a0a0a;
-
       font-family: 'Cormorant Garamond', serif;
-
       color: var(--ink);
-
       overflow-x: hidden;
-
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 28s-12-8.5-12-16a7 7 0 0 1 12-4.9A7 7 0 0 1 28 12c0 7.5-12 16-12 16z' fill='%23c0526e' opacity='0.8'/%3E%3C/svg%3E") 16 28, auto;
-
     }
 
-
-
-    /* PETALS */
-
+    /* ── PETALS ── */
     .petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-
     .petal { position: absolute; top: -40px; font-size: 1.2rem; opacity: 0; animation: petalFall linear infinite; }
-
     @keyframes petalFall {
-
       0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0.8; }
-
       100% { transform: translateY(110vh) rotate(360deg) translateX(80px); opacity: 0; }
-
     }
 
-
-
-    /* ENVELOPE */
-
+    /* ── ENVELOPE ── */
     #envelope-screen {
-
       position: fixed; inset: 0;
-
       background: radial-gradient(ellipse at center, #2d0d14 0%, #0d0305 100%);
-
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-
       z-index: 1000; transition: opacity 1.2s ease, transform 1.2s ease;
-
     }
-
     #envelope-screen.hide { opacity: 0; transform: scale(1.1); pointer-events: none; }
-
     .envelope-wrap { position: relative; width: 280px; height: 200px; cursor: pointer; filter: drop-shadow(0 20px 60px rgba(192,82,110,0.5)); transition: transform 0.3s ease; }
-
     .envelope-wrap:hover { transform: scale(1.05) rotate(-1deg); }
-
     .envelope-body { width: 280px; height: 200px; background: linear-gradient(135deg, var(--parchment), #f0d5c0); border-radius: 4px 4px 12px 12px; position: absolute; bottom: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.4); overflow: hidden; }
-
     .envelope-body::before { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, transparent 50%, rgba(0,0,0,0.05) 50%), linear-gradient(-45deg, transparent 50%, rgba(0,0,0,0.03) 50%); }
-
     .envelope-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 110px solid #e8c5a8; transform-origin: top center; transition: transform 0.8s cubic-bezier(0.4,0,0.2,1); z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
-
     .envelope-wrap:hover .envelope-flap { transform: rotateX(160deg); }
-
     .envelope-heart { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 2.5rem; animation: heartPulse 1.5s ease-in-out infinite; z-index: 3; }
-
     @keyframes heartPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.15); } }
-
     .envelope-tagline { margin-top: 32px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: rgba(255,255,255,0.7); text-align: center; animation: fadeInUp 1.5s ease 0.5s both; }
-
     .click-hint { margin-top: 12px; font-size: 0.9rem; color: rgba(255,255,255,0.4); letter-spacing: 0.2em; text-transform: uppercase; animation: blinkFade 2s ease-in-out infinite; }
-
     @keyframes blinkFade { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* ── MAIN CONTAINER ── */
+    #letter-container { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; background: radial-gradient(ellipse at 50% 0%, #2d0d14 0%, #0d0305 60%, #050003 100%); padding: 0 0 80px; }
+    #letter-container.visible { display: flex; }
 
-
-    /* LETTER */
-
-    #letter-er { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; background: radial-gradient(ellipse at 50% 0%, #2d0d14 0%, #0d0305 60%, #050003 100%); padding: 0 0 80px; }
-
-    #letter-er.visible { display: flex; }
-
-
-
-    /* PHOTO BANNER */
-
-    .photo-banner { width: 100%; height: 420px; position: relative; overflow: hidden; background: #1a0a0a; }
-
-    .photo-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, #0d0305 100%); z-index: 2; pointer-events: none; }
-
-    .photo-banner::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(192,82,110,0.15) 100%); z-index: 3; pointer-events: none; }
-
-    .slides-track { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4,0,0.2,1); }
-
-    .slide { min-width: 100%; height: 100%; position: relative; overflow: hidden; }
-
-    .slide-inner { width: 100%; height: 100%; background-size: cover; background-position: center; transform: scale(1.05); transition: transform 8s ease; }
-
+    /* ── PHOTO BANNER — fixed cropping ── */
+    .photo-banner {
+      width: 100%;
+      height: 500px;
+      position: relative;
+      overflow: hidden;
+      background: #1a0a0a;
+    }
+    .photo-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 20%, transparent 60%, #0d0305 100%);
+      z-index: 2; pointer-events: none;
+    }
+    .photo-banner::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(192,82,110,0.08) 100%);
+      z-index: 3; pointer-events: none;
+    }
+    /* Track holds all slides side by side */
+    .slides-track {
+      display: flex;
+      width: 500%; /* 5 slides × 100% */
+      height: 100%;
+      transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+    }
+    .slide {
+      width: 20%; /* each slide = 1/5 of 500% track = 100vw */
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    /* slide-inner fills its slide completely */
+    .slide-inner {
+      position: absolute;
+      inset: 0;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+      transform: scale(1.06);
+      transition: transform 9s ease;
+    }
     .slide.active .slide-inner { transform: scale(1); }
 
-
-
     /*
-
-     * PHOTOS — using raw.githubusercontent.com
-
-     * Format: https://raw.githubusercontent.com/OWNER/REPO/BRANCH/FILENAME
-
-     * Your repo: Lord-LLM/ily  |  branch: main
-
-     * If images still 404, open each URL below in a new browser tab to verify.
-
-     * If the branch is "master" not "main", change /main/ to /master/ below.
-
+     * PHOTOS — raw.githubusercontent.com
+     * If you get 404s, open one of these URLs in a new tab to verify.
+     * If branch is "master" not "main", change /main/ → /master/
      */
-
     .slide:nth-child(1) .slide-inner {
-
       background:
-
-        linear-gradient(135deg, rgba(139,69,19,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,140,0,0.3) 100%),
-
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg") center / contain no-repeat ;
-
+        linear-gradient(135deg, rgba(139,69,19,0.35) 0%, rgba(192,82,110,0.25) 60%, rgba(255,140,0,0.25) 100%),
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg") center center / cover no-repeat;
     }
-
     .slide:nth-child(2) .slide-inner {
-
       background:
-
-        linear-gradient(135deg, rgba(44,22,84,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,107,157,0.3) 100%),
-
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/2.jpeg")  center / contain no-repeat ;
-
+        linear-gradient(135deg, rgba(44,22,84,0.35) 0%, rgba(192,82,110,0.25) 60%, rgba(255,107,157,0.25) 100%),
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/2.jpeg") center center / cover no-repeat;
     }
-
     .slide:nth-child(3) .slide-inner {
-
       background:
-
-        linear-gradient(135deg, rgba(13,79,60,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,160,122,0.3) 100%),
-
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/3.jpeg") center / contain no-repeat;
-
+        linear-gradient(135deg, rgba(13,79,60,0.35) 0%, rgba(192,82,110,0.25) 60%, rgba(255,160,122,0.25) 100%),
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/3.jpeg") center center / cover no-repeat;
     }
-
     .slide:nth-child(4) .slide-inner {
-
       background:
-
-        linear-gradient(135deg, rgba(26,26,46,0.4) 0%, rgba(139,45,69,0.3) 50%, rgba(255,105,180,0.3) 100%),
-
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/4.jpeg") center / contain no-repeatt;
-
+        linear-gradient(135deg, rgba(26,26,46,0.35) 0%, rgba(139,45,69,0.25) 60%, rgba(255,105,180,0.25) 100%),
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/4.jpeg") center center / cover no-repeat;
     }
-
     .slide:nth-child(5) .slide-inner {
-
       background:
-
-        linear-gradient(135deg, rgba(45,27,0,0.4) 0%, rgba(192,82,110,0.3) 50%, rgba(255,215,0,0.3) 100%),
-
-        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/5.jpeg") center / contain no-repeat;
-
+        linear-gradient(135deg, rgba(45,27,0,0.35) 0%, rgba(192,82,110,0.25) 60%, rgba(255,215,0,0.25) 100%),
+        url("https://raw.githubusercontent.com/Lord-LLM/ily/main/5.jpeg") center center / cover no-repeat;
     }
 
-
-
-    .photo-overlay-text { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 4; text-align: center; width: 100%; }
-
+    .photo-overlay-text { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 4; text-align: center; width: 100%; }
     .photo-overlay-text h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.8rem,6vw,4.5rem); color: white; text-shadow: 0 2px 20px rgba(192,82,110,0.8), 0 0 60px rgba(192,82,110,0.4); animation: fadeInDown 1.5s ease both; }
-
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-    .slide-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 8px; }
-
+    .slide-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 8px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s ease; }
-
     .dot.active { background: var(--rose); transform: scale(1.3); box-shadow: 0 0 8px var(--rose); }
 
-
-
-    /* LETTER CARD */
-
+    /* ── LETTER CARD ── */
     .letter-paper { width: min(780px,92vw); margin: -60px auto 0; position: relative; z-index: 5; }
-
     .letter-card { background: var(--cream); border-radius: 2px; padding: 60px 70px; box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 4px 8px rgba(0,0,0,0.15), 0 20px 60px rgba(0,0,0,0.4), 0 40px 100px rgba(0,0,0,0.3); position: relative; overflow: hidden; animation: letterReveal 1.2s cubic-bezier(0.2,0.8,0.3,1) both; }
-
     @keyframes letterReveal { from { opacity: 0; transform: translateY(60px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
     .letter-card::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(201,168,76,0.1) 27px, rgba(201,168,76,0.1) 28px); pointer-events: none; }
-
     .letter-card::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(to bottom, var(--gold), var(--rose), var(--gold)); }
-
     .letter-date { font-style: italic; font-size: 0.95rem; color: var(--rose); text-align: right; margin-bottom: 32px; letter-spacing: 0.05em; }
-
     .letter-salutation { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--deep-rose); margin-bottom: 24px; }
-
     .letter-body p { font-size: 1.2rem; line-height: 2; color: var(--ink); font-weight: 300; margin-bottom: 20px; }
-
     .letter-body .highlight { font-style: italic; color: var(--rose); font-weight: 400; }
-
     .letter-divider { text-align: center; margin: 32px 0; font-size: 1.4rem; letter-spacing: 0.5em; color: var(--rose); opacity: 0.6; }
-
     .letter-signature { margin-top: 40px; text-align: right; }
-
     .letter-signature p { font-style: italic; font-size: 1rem; color: var(--ink); opacity: 0.7; }
-
     .letter-signature .sig-name { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--deep-rose); margin-top: 4px; }
 
-
-
-    /* QUESTION */
-
+    /* ── QUESTION ── */
     .question-section { width: min(780px,92vw); margin: 40px auto; background: linear-gradient(135deg, #1a0610 0%, #2d0d1a 50%, #1a0610 100%); border: 1px solid rgba(192,82,110,0.3); border-radius: 4px; padding: 60px 40px; text-align: center; box-shadow: 0 0 40px rgba(192,82,110,0.15), 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05); position: relative; overflow: hidden; }
-
     .question-section::before { content: '❤'; position: absolute; font-size: 20rem; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.03; line-height: 1; }
-
     .question-text { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,4vw,2.2rem); color: white; margin-bottom: 16px; line-height: 1.4; }
-
     .question-sub { font-style: italic; font-size: 1.1rem; color: rgba(255,255,255,0.5); margin-bottom: 48px; }
-
     .buttons-wrap { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; min-height: 80px; position: relative; }
-
     .btn-yes { padding: 18px 56px; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic; background: linear-gradient(135deg, var(--rose), var(--deep-rose)); color: white; border: none; border-radius: 2px; cursor: pointer; letter-spacing: 0.05em; box-shadow: 0 4px 24px rgba(192,82,110,0.4); transition: all 0.3s ease; position: relative; overflow: hidden; }
-
     .btn-yes:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 40px rgba(192,82,110,0.6); }
-
     .btn-yes:active { transform: scale(0.97); }
-
     .btn-no { padding: 14px 40px; font-size: 1.1rem; background: transparent; color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.15); border-radius: 2px; cursor: pointer; transition: all 0.15s ease; position: fixed; white-space: nowrap; z-index: 50; }
 
-
-
-    /* YES SECTION */
-
+    /* ── YES SECTION ── */
     #yes-section { display: none; flex-direction: column; align-items: center; padding: 0 20px 60px; }
-
     #yes-section.visible { display: flex; animation: fadeInUp 1s ease both; }
-
     .question-section.hide { display: none; }
 
-    .meme-reveal { width: min(500px,90vw); margin: 40px auto; text-align: center; }
+    .yes-headline { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem,7vw,4rem); color: var(--rose); text-align: center; text-shadow: 0 0 40px rgba(192,82,110,0.5); margin-bottom: 8px; margin-top: 48px; }
+    .yes-sub { font-style: italic; font-size: 1.2rem; color: rgba(255,255,255,0.6); text-align: center; margin-bottom: 8px; }
 
-    .meme-card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.6); transform: rotate(-1.5deg); animation: memePopIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both; }
+    /* ── DRAKE MEME ── */
+    .drake-meme-wrap {
+      width: min(520px, 92vw);
+      margin: 36px auto;
+      animation: memePopIn 0.7s cubic-bezier(0.175,0.885,0.32,1.275) both;
+      transform: rotate(-1deg);
+      filter: drop-shadow(0 24px 60px rgba(0,0,0,0.7));
+    }
+    @keyframes memePopIn { from { opacity: 0; transform: rotate(-1deg) scale(0.4); } to { opacity: 1; transform: rotate(-1deg) scale(1); } }
 
-    @keyframes memePopIn { from { opacity: 0; transform: rotate(-1.5deg) scale(0.5); } to { opacity: 1; transform: rotate(-1.5deg) scale(1); } }
-
-    .meme-card img { width: 100%; display: block; }
-
-    .meme-caption { background: white; padding: 16px; font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--deep-rose); }
-
-    .yes-headline { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem,7vw,4rem); color: var(--rose); text-align: center; text-shadow: 0 0 40px rgba(192,82,110,0.5); margin-bottom: 8px; }
-
-    .yes-sub { font-style: italic; font-size: 1.2rem; color: rgba(255,255,255,0.6); text-align: center; }
-
-
-
-    /* VENUE */
-
-    .venue-section { width: min(780px,92vw); margin: 40px auto; }
-
-    .venue-card { background: var(--cream); border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 20px 80px rgba(0,0,0,0.5); animation: slideInCard 1s ease 0.5s both; }
-
-    @keyframes slideInCard { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-
-    .venue-hero { height: 280px; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(139,45,69,0.4) 60%, rgba(44,26,14,0.9) 100%), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200') center/cover no-repeat; display: flex; align-items: flex-end; padding: 32px 40px; }
-
-    .venue-hero-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: white; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
-
-    .venue-hero-text p { font-style: italic; color: var(--blush); font-size: 1.1rem; }
-
-    .venue-body { padding: 48px 52px; }
-
-    .venue-tag { display: inline-block; background: var(--rose); color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 14px; border-radius: 1px; margin-bottom: 20px; }
-
-    .venue-body h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--deep-rose); margin-bottom: 16px; line-height: 1.3; }
-
-    .venue-body p { font-size: 1.15rem; line-height: 1.9; color: var(--ink); margin-bottom: 16px; }
-
-    .venue-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; padding-top: 32px; border-top: 1px solid rgba(201,168,76,0.3); }
-
-    .detail-item { display: flex; flex-direction: column; gap: 4px; }
-
-    .detail-label { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); }
-
-    .detail-value { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); }
-
-    .venue-closing { margin-top: 40px; padding: 32px; background: linear-gradient(135deg, #fdf0e8, #fde8e0); border-left: 3px solid var(--rose); font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--deep-rose); text-align: center; line-height: 1.6; }
-
-
-
-    /* MUSIC */
-
-    .music-player { position: fixed; bottom: 28px; right: 28px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-
-    .music-btn { width: 52px; height: 52px; border-radius: 50%; border: none; background: linear-gradient(135deg, var(--rose), var(--deep-rose)); color: white; font-size: 1.3rem; cursor: pointer; box-shadow: 0 4px 20px rgba(192,82,110,0.5); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
-
-    .music-btn:hover { transform: scale(1.1); }
-
-    .track-info { background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(192,82,110,0.3); border-radius: 2px; padding: 10px 16px; font-size: 0.85rem; color: rgba(255,255,255,0.8); font-style: italic; max-width: 200px; text-align: right; display: none; }
-
-    .track-info.visible { display: block; }
-
-    .track-name { color: var(--blush); font-size: 0.9rem; }
-
-    .track-dots { display: flex; gap: 6px; justify-content: flex-end; margin-top: 6px; }
-
-    .t-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
-
-    .t-dot.active { background: var(--rose); }
-
-
-
-    /* CONFETTI */
-
-    .confetti-piece { position: fixed; top: -20px; z-index: 200; pointer-events: none; animation: confettiFall linear forwards; }
-
-    @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; } }
-
-
-
-    @media (max-width: 600px) {
-
-      .letter-card { padding: 40px 28px; }
-
-      .venue-body { padding: 32px 28px; }
-
-      .venue-details-grid { grid-template-columns: 1fr; gap: 16px; }
-
+    .drake-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      grid-template-rows: 1fr 1fr;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 3px solid #111;
     }
 
+    /* Top-left: Drake refusing face */
+    .drake-face-no {
+      grid-column: 1;
+      grid-row: 1;
+      background: url('https://i.imgflip.com/30b1gx.jpg') left top / 280px auto no-repeat;
+      min-height: 180px;
+      position: relative;
+    }
+    /* Bottom-left: Drake approving face */
+    .drake-face-yes {
+      grid-column: 1;
+      grid-row: 2;
+      background: url('https://i.imgflip.com/30b1gx.jpg') left bottom / 280px auto no-repeat;
+      min-height: 180px;
+    }
+
+    /* Top-right: sports car */
+    .drake-content-no {
+      grid-column: 2;
+      grid-row: 1;
+      background:
+        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80') center / cover no-repeat;
+      min-height: 180px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 12px;
+    }
+    .drake-content-no::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.25);
+    }
+    .drake-label-no {
+      position: relative;
+      z-index: 1;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      padding: 6px 10px;
+      border-radius: 3px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      line-height: 1.3;
+    }
+
+    /* Bottom-right: your GitHub photo */
+    .drake-content-yes {
+      grid-column: 2;
+      grid-row: 2;
+      background:
+        url('https://raw.githubusercontent.com/Lord-LLM/ily/main/1.jpeg') center / cover no-repeat;
+      min-height: 180px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 12px;
+    }
+    .drake-content-yes::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(192,82,110,0.5) 0%, transparent 60%);
+    }
+    .drake-label-yes {
+      position: relative;
+      z-index: 1;
+      background: rgba(192,82,110,0.85);
+      color: white;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      padding: 6px 12px;
+      border-radius: 3px;
+      line-height: 1.3;
+    }
+
+    .drake-caption {
+      background: white;
+      text-align: center;
+      padding: 14px 16px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      color: var(--deep-rose);
+      border-top: 2px solid #eee;
+    }
+
+    /* ── VENUE ── */
+    .venue-section { width: min(780px,92vw); margin: 40px auto; }
+    .venue-card { background: var(--cream); border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 20px 80px rgba(0,0,0,0.5); animation: slideInCard 1s ease 0.5s both; }
+    @keyframes slideInCard { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .venue-hero { height: 280px; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(139,45,69,0.4) 60%, rgba(44,26,14,0.9) 100%), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200') center/cover no-repeat; display: flex; align-items: flex-end; padding: 32px 40px; }
+    .venue-hero-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: white; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+    .venue-hero-text p { font-style: italic; color: var(--blush); font-size: 1.1rem; }
+    .venue-body { padding: 48px 52px; }
+    .venue-tag { display: inline-block; background: var(--rose); color: white; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 14px; border-radius: 1px; margin-bottom: 20px; }
+    .venue-body h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--deep-rose); margin-bottom: 16px; line-height: 1.3; }
+    .venue-body p { font-size: 1.15rem; line-height: 1.9; color: var(--ink); margin-bottom: 16px; }
+    .venue-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; padding-top: 32px; border-top: 1px solid rgba(201,168,76,0.3); }
+    .detail-item { display: flex; flex-direction: column; gap: 4px; }
+    .detail-label { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); }
+    .detail-value { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); }
+    .venue-closing { margin-top: 40px; padding: 32px; background: linear-gradient(135deg, #fdf0e8, #fde8e0); border-left: 3px solid var(--rose); font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--deep-rose); text-align: center; line-height: 1.6; }
+
+    /* ── MUSIC ── */
+    .music-player { position: fixed; bottom: 28px; right: 28px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .music-btn { width: 52px; height: 52px; border-radius: 50%; border: none; background: linear-gradient(135deg, var(--rose), var(--deep-rose)); color: white; font-size: 1.3rem; cursor: pointer; box-shadow: 0 4px 20px rgba(192,82,110,0.5); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+    .music-btn:hover { transform: scale(1.1); }
+    .track-info { background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(192,82,110,0.3); border-radius: 2px; padding: 10px 16px; font-size: 0.85rem; color: rgba(255,255,255,0.8); font-style: italic; max-width: 200px; text-align: right; display: none; }
+    .track-info.visible { display: block; }
+    .track-name { color: var(--blush); font-size: 0.9rem; }
+    .track-dots { display: flex; gap: 6px; justify-content: flex-end; margin-top: 6px; }
+    .t-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
+    .t-dot.active { background: var(--rose); }
+
+    /* ── CONFETTI ── */
+    .confetti-piece { position: fixed; top: -20px; z-index: 200; pointer-events: none; animation: confettiFall linear forwards; }
+    @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; } }
+
+    @media (max-width: 600px) {
+      .letter-card { padding: 40px 28px; }
+      .venue-body { padding: 32px 28px; }
+      .venue-details-grid { grid-template-columns: 1fr; gap: 16px; }
+      .drake-grid { grid-template-columns: 110px 1fr; }
+      .drake-face-no, .drake-face-yes { background-size: 220px auto; min-height: 140px; }
+      .drake-content-no, .drake-content-yes { min-height: 140px; }
+      .photo-banner { height: 360px; }
+    }
   </style>
-
 </head>
-
 <body>
-
-
 
 <div class="petals-container" id="petalsContainer"></div>
 
-
-
 <!-- Envelope intro -->
-
 <div id="envelope-screen">
-
   <div class="envelope-wrap" onclick="openEnvelope()">
-
     <div class="envelope-body"></div>
-
     <div class="envelope-flap"></div>
-
     <div class="envelope-heart">💌</div>
-
   </div>
-
   <p class="envelope-tagline">A letter, just for you.</p>
-
   <p class="click-hint">✦ Open me ✦</p>
-
 </div>
-
-
 
 <!-- Main content -->
-
 <div id="letter-container">
 
-
-
-  <!-- Slideshow -->
-
+  <!-- Slideshow Banner -->
   <div class="photo-banner">
-
     <div class="slides-track" id="slidesTrack">
-
       <div class="slide active"><div class="slide-inner"></div></div>
-
       <div class="slide"><div class="slide-inner"></div></div>
-
       <div class="slide"><div class="slide-inner"></div></div>
-
       <div class="slide"><div class="slide-inner"></div></div>
-
       <div class="slide"><div class="slide-inner"></div></div>
-
     </div>
-
     <div class="photo-overlay-text"><h1>Happy Valentine's Day 💕</h1></div>
-
     <div class="slide-dots">
-
       <div class="dot active" onclick="goToSlide(0)"></div>
-
       <div class="dot" onclick="goToSlide(1)"></div>
-
       <div class="dot" onclick="goToSlide(2)"></div>
-
       <div class="dot" onclick="goToSlide(3)"></div>
-
       <div class="dot" onclick="goToSlide(4)"></div>
-
     </div>
-
   </div>
-
-
 
   <!-- Letter -->
-
   <div class="letter-paper">
-
     <div class="letter-card">
-
       <div class="letter-date">February 14, 2026</div>
-
       <div class="letter-salutation">My dearest,</div>
-
       <div class="letter-body">
-
         <p>Some things in this world don't need a reason — the way sunlight finds the window each morning, the way a song can stop time completely, the way <span class="highlight">you</span> have somehow become the best part of every single day.</p>
-
         <p>I've been trying to find the right words for a while now. I've started this letter more times than I can count, thrown it away, started again. And I've realised — there is no perfect way to say this. There's only the truth of it:</p>
-
         <p><span class="highlight">You make everything better.</span> You are the reason I smile at my phone. The reason certain songs hit differently. The reason I look forward to tomorrow.</p>
-
         <div class="letter-divider">✦ ❤ ✦</div>
-
         <p>So this Valentine's Day, I have just one question for you...</p>
-
       </div>
-
       <div class="letter-signature">
-
         <p>With everything I've got,</p>
-
         <p class="sig-name">Always yours 💕</p>
-
       </div>
-
     </div>
-
   </div>
-
-
 
   <!-- Question -->
-
   <div class="question-section" id="questionSection">
-
     <p class="question-text">Will you be my Valentine? 🌹</p>
-
     <p class="question-sub">Choose wisely — one of these buttons is a trap.</p>
-
     <div class="buttons-wrap">
-
       <button class="btn-yes" onclick="handleYes()">Yes, obviously! 💕</button>
-
       <button class="btn-no" id="noBtn">No...</button>
-
     </div>
-
   </div>
 
-
-
-  <!-- Yes! -->
-
+  <!-- Yes! Section -->
   <div id="yes-section">
-
     <p class="yes-headline">She said YES! 🎉</p>
-
     <p class="yes-sub">I knew you would 😉</p>
 
-    <div class="meme-reveal">
+    <!-- Drake Meme — custom grid -->
+    <div class="drake-meme-wrap">
+      <div class="drake-grid">
 
-      <div class="meme-card">
+        <!-- Top-left: Drake refusing (uses imgflip sprite, top crop) -->
+        <div class="drake-face-no"></div>
 
-        <img src="https://i.imgflip.com/30b1gx.jpg" alt="meme" onerror="this.src='https://i.imgflip.com/4/1ur9b0.jpg'" />
+        <!-- Top-right: Sports car (the "No" thing Drake is dismissing) -->
+        <div class="drake-content-no">
+          <span class="drake-label-no">Anyone else 🚗</span>
+        </div>
 
-        <div class="meme-caption">You just made my whole year 😭❤️</div>
+        <!-- Bottom-left: Drake approving (uses imgflip sprite, bottom crop) -->
+        <div class="drake-face-yes"></div>
+
+        <!-- Bottom-right: YOUR photo from GitHub -->
+        <div class="drake-content-yes">
+          <span class="drake-label-yes">Her 💕</span>
+        </div>
 
       </div>
-
+      <div class="drake-caption">You just made my whole year 😭❤️</div>
     </div>
 
+    <!-- Venue -->
     <div class="venue-section">
-
       <div class="venue-card">
-
         <div class="venue-hero">
-
           <div class="venue-hero-text">
-
             <h2>FK Resort &amp; Spa</h2>
-
             <p>Where our Valentine's begins ✨</p>
-
           </div>
-
         </div>
-
         <div class="venue-body">
-
           <div class="venue-tag">Our Valentine's Destination</div>
-
           <h3>An Evening Made Just For Us</h3>
-
           <p>I've been thinking about this for a while, and I want our Valentine's to be something you'll remember. So I've chosen a place as beautiful as the person I'm taking there — <strong>FK Resort</strong>.</p>
-
           <p>Everything is sorted. All you need to bring is yourself, your smile, and that outfit I know you've already been thinking about.</p>
-
           <div class="venue-details-grid">
-
             <div class="detail-item"><span class="detail-label">When</span><span class="detail-value">February 14, 2026</span></div>
-
             <div class="detail-item"><span class="detail-label">Where</span><span class="detail-value">FK Resort</span></div>
-
             <div class="detail-item"><span class="detail-label">Dress Code</span><span class="detail-value">Elegantly you 💫</span></div>
-
             <div class="detail-item"><span class="detail-label">Reservation</span><span class="detail-value">All sorted ✅</span></div>
-
           </div>
-
         </div>
-
         <div class="venue-closing">
-
           I cannot wait to see you walk through that door. 🌹<br/>
-
           <span style="font-size:1.1rem;color:var(--rose);">Looking forward to every moment with you.</span>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
 
-
-
 </div>
-
-
 
 <!-- Music -->
-
 <div class="music-player">
-
   <div class="track-info" id="trackInfo">
-
     <span id="artistName"></span><br/>
-
     <span class="track-name" id="trackName"></span>
-
     <div class="track-dots" id="trackDots"></div>
-
   </div>
-
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Play music">♫</button>
-
 </div>
 
-
-
-<!--
-
-  YouTube iframe fix:
-
-  - Must NOT be display:none — YouTube's postMessage fails
-
-  - Use visibility+size trick instead to keep it in DOM
-
--->
-
+<!-- YouTube: off-screen but rendered so postMessage works on Vercel -->
 <div style="position:fixed;top:-20px;left:-20px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;">
-
   <div id="ytPlayer"></div>
-
 </div>
-
-
 
 <script>
-
 /* ── PETALS ── */
-
 const petalsEl = document.getElementById('petalsContainer');
-
 const PETALS = ['🌸','🌺','💮','🌹','❤️','💕','✦'];
-
 function spawnPetal() {
-
   const p = document.createElement('div');
-
   p.className = 'petal';
-
   p.textContent = PETALS[Math.floor(Math.random()*PETALS.length)];
-
   p.style.left = Math.random()*100 + 'vw';
-
-  const dur = 6 + Math.random()*10, delay = Math.random()*8;
-
+  const dur = 6+Math.random()*10, delay = Math.random()*8;
   p.style.animationDuration = dur+'s';
-
   p.style.animationDelay = delay+'s';
-
   p.style.fontSize = (0.8+Math.random()*0.8)+'rem';
-
   petalsEl.appendChild(p);
-
   setTimeout(()=>p.remove(),(dur+delay)*1000);
-
 }
-
-setInterval(spawnPetal,600);
-
-for(let i=0;i<12;i++) setTimeout(spawnPetal,i*200);
-
-
+setInterval(spawnPetal, 600);
+for(let i=0;i<12;i++) setTimeout(spawnPetal, i*200);
 
 /* ── ENVELOPE ── */
-
 function openEnvelope() {
-
   const screen = document.getElementById('envelope-screen');
-
   screen.classList.add('hide');
-
   setTimeout(()=>{
-
-    screen.style.display='none';
-
+    screen.style.display = 'none';
     document.getElementById('letter-container').classList.add('visible');
-
     startSlideshow();
-
     startNoBtnEscape();
-
     initMusic();
-
-  },1200);
-
+  }, 1200);
 }
 
-
-
-/* ── SLIDESHOW ── */
-
+/* ── SLIDESHOW — width-based translation ── */
 let currentSlide = 0;
-
 function goToSlide(idx) {
-
   const slides = document.querySelectorAll('.slide');
-
   const dots   = document.querySelectorAll('.dot');
-
   slides[currentSlide].classList.remove('active');
-
   dots[currentSlide].classList.remove('active');
-
   currentSlide = idx;
-
   slides[currentSlide].classList.add('active');
-
   dots[currentSlide].classList.add('active');
-
-  document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide*100}%)`;
-
+  // Each slide is 20% of the 500%-wide track = moves by idx * 20%
+  document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide * 20}%)`;
 }
-
-function startSlideshow() { setInterval(()=>goToSlide((currentSlide+1)%5),4000); }
-
-
+function startSlideshow() {
+  setInterval(()=> goToSlide((currentSlide+1) % 5), 4500);
+}
 
 /* ── ESCAPING NO BUTTON ── */
-
 function startNoBtnEscape() {
-
   const btn = document.getElementById('noBtn');
-
   const sec = document.getElementById('questionSection');
-
   const place = ()=>{
-
     const r = sec.getBoundingClientRect();
-
-    btn.style.left = (r.left + r.width*0.65)+'px';
-
-    btn.style.top  = (r.top + window.scrollY + 60)+'px';
-
+    btn.style.left = (r.left + r.width*0.65) + 'px';
+    btn.style.top  = (r.top + window.scrollY + 60) + 'px';
   };
-
   place();
-
   window.addEventListener('resize', place);
-
   const run = (e)=>{
-
-    const mx = e.clientX||(e.touches&&e.touches[0].clientX)||0;
-
-    const my = e.clientY||(e.touches&&e.touches[0].clientY)||0;
-
+    const mx = e.clientX || (e.touches&&e.touches[0].clientX) || 0;
+    const my = e.clientY || (e.touches&&e.touches[0].clientY) || 0;
     const r  = btn.getBoundingClientRect();
-
     const cx = r.left+r.width/2, cy = r.top+r.height/2;
-
-    if(Math.hypot(mx-cx,my-cy)<140){
-
-      const a = Math.atan2(my-cy,mx-cx), d = 160+Math.random()*80;
-
-      btn.style.left = Math.max(20,Math.min(window.innerWidth-120, cx-Math.cos(a)*d))+'px';
-
-      btn.style.top  = Math.max(20,Math.min(window.innerHeight-60+window.scrollY, cy-Math.sin(a)*d+window.scrollY))+'px';
-
-      btn.style.transition='left .25s cubic-bezier(.4,0,.2,1),top .25s cubic-bezier(.4,0,.2,1)';
-
+    if(Math.hypot(mx-cx, my-cy) < 140) {
+      const a = Math.atan2(my-cy, mx-cx), d = 160+Math.random()*80;
+      btn.style.left = Math.max(20, Math.min(window.innerWidth-120, cx-Math.cos(a)*d)) + 'px';
+      btn.style.top  = Math.max(20, Math.min(window.innerHeight-60+window.scrollY, cy-Math.sin(a)*d+window.scrollY)) + 'px';
+      btn.style.transition = 'left .25s cubic-bezier(.4,0,.2,1), top .25s cubic-bezier(.4,0,.2,1)';
     }
-
   };
-
-  document.addEventListener('mousemove',run);
-
-  document.addEventListener('touchmove',run,{passive:true});
-
+  document.addEventListener('mousemove', run);
+  document.addEventListener('touchmove', run, {passive:true});
 }
-
-
 
 /* ── YES ── */
-
 function handleYes() {
-
   document.getElementById('questionSection').classList.add('hide');
-
-  document.getElementById('noBtn').style.display='none';
-
+  document.getElementById('noBtn').style.display = 'none';
   const ys = document.getElementById('yes-section');
-
   ys.classList.add('visible');
-
   launchConfetti();
-
-  setTimeout(()=>ys.scrollIntoView({behavior:'smooth',block:'start'}),100);
-
+  setTimeout(()=> ys.scrollIntoView({behavior:'smooth', block:'start'}), 100);
 }
-
-
 
 /* ── CONFETTI ── */
-
 function launchConfetti() {
-
   const C=['#c0526e','#f4c2c2','#ffd700','#ff69b4','#ff8c00','#fff'];
-
   for(let i=0;i<80;i++) setTimeout(()=>{
-
-    const c=document.createElement('div');
-
-    c.className='confetti-piece';
-
-    c.style.left=Math.random()*100+'vw';
-
-    c.style.background=C[Math.floor(Math.random()*C.length)];
-
-    c.style.borderRadius=Math.random()>.5?'50%':'0';
-
-    const s=6+Math.random()*10; c.style.width=s+'px'; c.style.height=s+'px';
-
-    const dur=2+Math.random()*3; c.style.animationDuration=dur+'s';
-
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = C[Math.floor(Math.random()*C.length)];
+    c.style.borderRadius = Math.random()>.5 ? '50%' : '0';
+    const s = 6+Math.random()*10;
+    c.style.width = s+'px'; c.style.height = s+'px';
+    const dur = 2+Math.random()*3;
+    c.style.animationDuration = dur+'s';
     document.body.appendChild(c);
-
-    setTimeout(()=>c.remove(),dur*1000);
-
-  },i*40);
-
+    setTimeout(()=>c.remove(), dur*1000);
+  }, i*40);
 }
-
-
 
 /* ── YOUTUBE ── */
-
 const TRACKS = [
-
   {id:'O4mwT7XJTcc', artist:"Roni's Goliath", title:'Tell Me One Lie'},
-
   {id:'yG9S0p_0lVA', artist:'Alex Warren',    title:'Ordinary'},
-
 ];
-
 let curTrack=0, ytPlayer=null, ytReady=false, playing=false;
 
-
-
 function initMusic() {
-
   updateTrackDots();
-
-  // Only load the API once
-
   if(document.querySelector('script[src*="youtube.com/iframe_api"]')) return;
-
-  const s=document.createElement('script');
-
-  s.src='https://www.youtube.com/iframe_api';
-
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
   document.head.appendChild(s);
-
 }
-
-
-
-// Called automatically by YouTube API when ready
-
-// Called automatically by YouTube API when ready
 
 window.onYouTubeIframeAPIReady = function() {
-
-  ytPlayer = new YT.Player('ytPlayer',{
-
+  ytPlayer = new YT.Player('ytPlayer', {
     width:'2', height:'2',
-
     videoId: TRACKS[0].id,
-
-    playerVars:{ 
-
-      autoplay: 0, 
-
-      controls: 0, 
-
-      playsinline: 1, 
-
-      enablejsapi: 1, // <-- Add this flag here
-
-      origin: 'https://joylynn.vercel.app' // Hardcoding the exact domain can also help!
-
-    },
-
-    events:{
-
-      onReady: ()=>{ ytReady=true; },
-
+    playerVars: { autoplay:0, controls:0, playsinline:1, origin: window.location.origin },
+    events: {
+      onReady: ()=>{ ytReady = true; },
       onStateChange: (e)=>{
-
-        if(e.data===YT.PlayerState.ENDED){
-
-          curTrack=(curTrack+1)%TRACKS.length;
-
+        if(e.data === YT.PlayerState.ENDED) {
+          curTrack = (curTrack+1) % TRACKS.length;
           ytPlayer.loadVideoById(TRACKS[curTrack].id);
-
           ytPlayer.playVideo();
-
-          refreshUI();
-
+          refreshMusicUI();
         }
-
       }
-
     }
-
   });
-
 };
 
-
-
 function toggleMusic() {
-
   const btn  = document.getElementById('musicBtn');
-
   const info = document.getElementById('trackInfo');
-
-
-
-  // Guard: player not ready yet
-
-  if(!ytReady || !ytPlayer || typeof ytPlayer.playVideo!=='function'){
-
-    btn.textContent='⏳';
-
-    setTimeout(toggleMusic,800); // retry in 0.8s
-
+  if(!ytReady || !ytPlayer || typeof ytPlayer.playVideo !== 'function') {
+    btn.textContent = '⏳';
+    setTimeout(toggleMusic, 800);
     return;
-
   }
-
-
-
-  if(playing){
-
-    ytPlayer.pauseVideo();
-
-    playing=false;
-
-    btn.textContent='♫';
-
-    btn.style.background='linear-gradient(135deg,#666,#444)';
-
+  if(playing) {
+    ytPlayer.pauseVideo(); playing = false;
+    btn.textContent = '♫';
+    btn.style.background = 'linear-gradient(135deg,#666,#444)';
     info.classList.remove('visible');
-
   } else {
-
-    ytPlayer.playVideo();
-
-    playing=true;
-
-    btn.textContent='⏸';
-
-    btn.style.background='linear-gradient(135deg,var(--rose),var(--deep-rose))';
-
-    refreshUI();
-
+    ytPlayer.playVideo(); playing = true;
+    btn.textContent = '⏸';
+    btn.style.background = 'linear-gradient(135deg,var(--rose),var(--deep-rose))';
+    refreshMusicUI();
     info.classList.add('visible');
-
   }
-
 }
 
-
-
-function refreshUI(){
-
+function refreshMusicUI() {
   document.getElementById('artistName').textContent = TRACKS[curTrack].artist;
-
   document.getElementById('trackName').textContent  = '♪ '+TRACKS[curTrack].title;
-
   updateTrackDots();
-
 }
 
-
-
-function updateTrackDots(){
-
-  const el=document.getElementById('trackDots');
-
-  el.innerHTML='';
-
+function updateTrackDots() {
+  const el = document.getElementById('trackDots');
+  el.innerHTML = '';
   TRACKS.forEach((_,i)=>{
-
-    const d=document.createElement('div');
-
-    d.className='t-dot'+(i===curTrack?' active':'');
-
-    d.onclick=()=>switchTrack(i);
-
+    const d = document.createElement('div');
+    d.className = 't-dot'+(i===curTrack?' active':'');
+    d.onclick = ()=> switchTrack(i);
     el.appendChild(d);
-
   });
-
 }
 
-
-
-function switchTrack(idx){
-
-  if(!ytReady||!ytPlayer||typeof ytPlayer.loadVideoById!=='function') return;
-
-  curTrack=idx;
-
+function switchTrack(idx) {
+  if(!ytReady || !ytPlayer || typeof ytPlayer.loadVideoById !== 'function') return;
+  curTrack = idx;
   ytPlayer.loadVideoById(TRACKS[idx].id);
-
   if(playing) ytPlayer.playVideo();
-
-  refreshUI();
-
+  refreshMusicUI();
 }
-
 </script>
-
 </body>
-
 </html>
-
