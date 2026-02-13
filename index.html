@@ -63,10 +63,11 @@
     #letter-container { position: relative; z-index: 1; min-height: 100vh; display: none; flex-direction: column; align-items: center; background: radial-gradient(ellipse at 50% 0%, #2d0d14 0%, #0d0305 60%, #050003 100%); padding: 0 0 80px; }
     #letter-container.visible { display: flex; }
 
-    /* ── PHOTO BANNER — fixed cropping ── */
+    /* ── PHOTO BANNER ── */
     .photo-banner {
       width: 100%;
-      height: 500px;
+      height: 60vh;
+      min-height: 450px;
       position: relative;
       overflow: hidden;
       background: #1a0a0a;
@@ -83,22 +84,20 @@
       background: radial-gradient(ellipse at center, transparent 50%, rgba(192,82,110,0.08) 100%);
       z-index: 3; pointer-events: none;
     }
-    /* Track holds all slides side by side */
     .slides-track {
       display: flex;
-      width: 500%; /* 5 slides × 100% */
+      width: 500%; 
       height: 100%;
       transition: transform 1s cubic-bezier(0.4,0,0.2,1);
       will-change: transform;
     }
     .slide {
-      width: 20%; /* each slide = 1/5 of 500% track = 100vw */
+      width: 20%; 
       height: 100%;
       position: relative;
       overflow: hidden;
       flex-shrink: 0;
     }
-    /* slide-inner fills its slide completely */
     .slide-inner {
       position: absolute;
       inset: 0;
@@ -110,11 +109,6 @@
     }
     .slide.active .slide-inner { transform: scale(1); }
 
-    /*
-     * PHOTOS — raw.githubusercontent.com
-     * If you get 404s, open one of these URLs in a new tab to verify.
-     * If branch is "master" not "main", change /main/ → /master/
-     */
     .slide:nth-child(1) .slide-inner {
       background:
         linear-gradient(135deg, rgba(139,69,19,0.35) 0%, rgba(192,82,110,0.25) 60%, rgba(255,140,0,0.25) 100%),
@@ -143,7 +137,6 @@
 
     .photo-overlay-text { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); z-index: 4; text-align: center; width: 100%; }
     .photo-overlay-text h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.8rem,6vw,4.5rem); color: white; text-shadow: 0 2px 20px rgba(192,82,110,0.8), 0 0 60px rgba(192,82,110,0.4); animation: fadeInDown 1.5s ease both; }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .slide-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 8px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s ease; }
     .dot.active { background: var(--rose); transform: scale(1.3); box-shadow: 0 0 8px var(--rose); }
@@ -334,7 +327,6 @@
 
 <div class="petals-container" id="petalsContainer"></div>
 
-<!-- Envelope intro -->
 <div id="envelope-screen">
   <div class="envelope-wrap" onclick="openEnvelope()">
     <div class="envelope-body"></div>
@@ -345,10 +337,8 @@
   <p class="click-hint">✦ Open me ✦</p>
 </div>
 
-<!-- Main content -->
 <div id="letter-container">
 
-  <!-- Slideshow Banner -->
   <div class="photo-banner">
     <div class="slides-track" id="slidesTrack">
       <div class="slide active"><div class="slide-inner"></div></div>
@@ -367,7 +357,6 @@
     </div>
   </div>
 
-  <!-- Letter -->
   <div class="letter-paper">
     <div class="letter-card">
       <div class="letter-date">February 14, 2026</div>
@@ -386,7 +375,6 @@
     </div>
   </div>
 
-  <!-- Question -->
   <div class="question-section" id="questionSection">
     <p class="question-text">Will you be my Valentine? 🌹</p>
     <p class="question-sub">Choose wisely — one of these buttons is a trap.</p>
@@ -396,36 +384,24 @@
     </div>
   </div>
 
-  <!-- Yes! Section -->
   <div id="yes-section">
     <p class="yes-headline">She said YES! 🎉</p>
     <p class="yes-sub">I knew you would 😉</p>
 
-    <!-- Drake Meme — custom grid -->
     <div class="drake-meme-wrap">
       <div class="drake-grid">
-
-        <!-- Top-left: Drake refusing (uses imgflip sprite, top crop) -->
         <div class="drake-face-no"></div>
-
-        <!-- Top-right: Sports car (the "No" thing Drake is dismissing) -->
         <div class="drake-content-no">
           <span class="drake-label-no">Anyone else 🚗</span>
         </div>
-
-        <!-- Bottom-left: Drake approving (uses imgflip sprite, bottom crop) -->
         <div class="drake-face-yes"></div>
-
-        <!-- Bottom-right: YOUR photo from GitHub -->
         <div class="drake-content-yes">
           <span class="drake-label-yes">Her 💕</span>
         </div>
-
       </div>
       <div class="drake-caption">You just made my whole year 😭❤️</div>
     </div>
 
-    <!-- Venue -->
     <div class="venue-section">
       <div class="venue-card">
         <div class="venue-hero">
@@ -456,7 +432,6 @@
 
 </div>
 
-<!-- Music -->
 <div class="music-player">
   <div class="track-info" id="trackInfo">
     <span id="artistName"></span><br/>
@@ -466,8 +441,7 @@
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Play music">♫</button>
 </div>
 
-<!-- YouTube: off-screen but rendered so postMessage works on Vercel -->
-<div style="position:fixed;top:-20px;left:-20px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;">
+<div style="position:fixed; bottom:0; right:0; width:200px; height:200px; z-index:-10; opacity:0; pointer-events:none;">
   <div id="ytPlayer"></div>
 </div>
 
@@ -494,16 +468,19 @@ for(let i=0;i<12;i++) setTimeout(spawnPetal, i*200);
 function openEnvelope() {
   const screen = document.getElementById('envelope-screen');
   screen.classList.add('hide');
+  
+  // Start the music exactly when she taps!
+  toggleMusic();
+
   setTimeout(()=>{
     screen.style.display = 'none';
     document.getElementById('letter-container').classList.add('visible');
     startSlideshow();
     startNoBtnEscape();
-    initMusic();
   }, 1200);
 }
 
-/* ── SLIDESHOW — width-based translation ── */
+/* ── SLIDESHOW ── */
 let currentSlide = 0;
 function goToSlide(idx) {
   const slides = document.querySelectorAll('.slide');
@@ -513,7 +490,6 @@ function goToSlide(idx) {
   currentSlide = idx;
   slides[currentSlide].classList.add('active');
   dots[currentSlide].classList.add('active');
-  // Each slide is 20% of the 500%-wide track = moves by idx * 20%
   document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide * 20}%)`;
 }
 function startSlideshow() {
@@ -592,9 +568,15 @@ function initMusic() {
 
 window.onYouTubeIframeAPIReady = function() {
   ytPlayer = new YT.Player('ytPlayer', {
-    width:'2', height:'2',
+    width: '200', height: '200',
     videoId: TRACKS[0].id,
-    playerVars: { autoplay:0, controls:0, playsinline:1, origin: window.location.origin },
+    playerVars: { 
+      autoplay: 0, 
+      controls: 0, 
+      playsinline: 1, 
+      enablejsapi: 1, 
+      origin: window.location.origin 
+    },
     events: {
       onReady: ()=>{ ytReady = true; },
       onStateChange: (e)=>{
@@ -612,11 +594,13 @@ window.onYouTubeIframeAPIReady = function() {
 function toggleMusic() {
   const btn  = document.getElementById('musicBtn');
   const info = document.getElementById('trackInfo');
+  
   if(!ytReady || !ytPlayer || typeof ytPlayer.playVideo !== 'function') {
     btn.textContent = '⏳';
     setTimeout(toggleMusic, 800);
     return;
   }
+  
   if(playing) {
     ytPlayer.pauseVideo(); playing = false;
     btn.textContent = '♫';
@@ -655,6 +639,9 @@ function switchTrack(idx) {
   if(playing) ytPlayer.playVideo();
   refreshMusicUI();
 }
+
+// Preload the API immediately so it's ready when the envelope is clicked
+initMusic();
 </script>
 </body>
 </html>
